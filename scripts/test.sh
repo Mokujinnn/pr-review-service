@@ -13,7 +13,26 @@ curl -s -X POST "$BASE_URL/team/add" \
     "team_name": "backend",
     "members": [
       {"user_id": "u1", "username": "Alice", "is_active": true},
-      {"user_id": "u2", "username": "Bob", "is_active": true}
+      {"user_id": "u2", "username": "Bob", "is_active": true},
+      {"user_id": "u3", "username": "Charlie", "is_active": true},
+      {"user_id": "u4", "username": "Dave", "is_active": true},
+      {"user_id": "u5", "username": "Eve", "is_active": true},
+      {"user_id": "u6", "username": "Frank", "is_active": true},
+      {"user_id": "u7", "username": "George", "is_active": true},
+      {"user_id": "u8", "username": "Hank", "is_active": true},
+      {"user_id": "u9", "username": "Ivan", "is_active": true},
+      {"user_id": "u10", "username": "Jack", "is_active": true},
+      {"user_id": "u11", "username": "John", "is_active": true},
+      {"user_id": "u12", "username": "Kevin", "is_active": true},
+      {"user_id": "u13", "username": "Larry", "is_active": true},
+      {"user_id": "u14", "username": "Michael", "is_active": true},
+      {"user_id": "u14", "username": "Michael", "is_active": false},
+      {"user_id": "u15", "username": "Nicholas", "is_active": true},
+      {"user_id": "u16", "username": "Oliver", "is_active": true},
+      {"user_id": "u17", "username": "Paul", "is_active": true},
+      {"user_id": "u18", "username": "Quentin", "is_active": true},
+      {"user_id": "u19", "username": "Richard", "is_active": true},
+      {"user_id": "u20", "username": "Robert", "is_active": true}
     ]
   }'
 echo "" && echo ""
