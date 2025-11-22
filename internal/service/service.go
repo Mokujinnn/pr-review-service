@@ -9,11 +9,11 @@ import (
 )
 
 var (
-	ErrTeamExists  = errors.New("team already exists")
-	ErrPRExists    = errors.New("PR already exists")
-	ErrPRMerged    = errors.New("PR is merged")
-	ErrNotAssigned = errors.New("reviewer not assigned")
-	ErrNoCandidate = errors.New("no active replacement candidate")
+	ErrTeamExists  = errors.New("team_name already exists")
+	ErrPRExists    = errors.New("PR id already exists")
+	ErrPRMerged    = errors.New("cannot reassign on merged PR")
+	ErrNotAssigned = errors.New("reviewer is not assigned to this PR")
+	ErrNoCandidate = errors.New("no active replacement candidate in team")
 	ErrNotFound    = errors.New("resource not found")
 )
 
