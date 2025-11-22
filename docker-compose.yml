@@ -15,7 +15,6 @@ services:
       - DB_NAME=pr_review_service
     depends_on:
       - db
-    command: [ "./wait-for-it.sh", "db:5432", "--", "./app" ]
     restart: on-failure
 
   db:
