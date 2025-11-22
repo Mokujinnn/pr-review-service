@@ -23,13 +23,7 @@ CREATE TABLE IF NOT EXISTS pull_requests (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Индексы для производительности
 CREATE INDEX IF NOT EXISTS idx_users_team_active ON users(team_name, is_active);
 CREATE INDEX IF NOT EXISTS idx_pr_author ON pull_requests(author_id);
 CREATE INDEX IF NOT EXISTS idx_pr_status ON pull_requests(status);
 CREATE INDEX IF NOT EXISTS idx_pr_reviewers ON pull_requests USING GIN (assigned_reviewers);
-
--- Инициализация некоторых тестовых данных (опционально)
-INSERT INTO teams (team_name) VALUES 
-('backend'), ('frontend'), ('payments')
-ON CONFLICT (team_name) DO NOTHING;
