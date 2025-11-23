@@ -3,6 +3,7 @@ package service
 import (
 	"errors"
 	"math/rand"
+	"sync"
 	"time"
 
 	"pr-review-service/internal/models"
@@ -20,6 +21,7 @@ var (
 
 type ReviewService struct {
 	store storage.Storage
+	mu    sync.RWMutex
 }
 
 func NewReviewService(store storage.Storage) *ReviewService {
@@ -27,6 +29,9 @@ func NewReviewService(store storage.Storage) *ReviewService {
 }
 
 func (s *ReviewService) CreateTeam(team models.Team) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
 	existing, _ := s.store.GetTeam(team.TeamName)
 	if existing != nil {
 		return ErrTeamExists
@@ -36,6 +41,9 @@ func (s *ReviewService) CreateTeam(team models.Team) error {
 }
 
 func (s *ReviewService) GetTeam(teamName string) (*models.Team, error) {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+
 	team, err := s.store.GetTeam(teamName)
 	if err != nil {
 		return nil, ErrNotFound
@@ -44,6 +52,9 @@ func (s *ReviewService) GetTeam(teamName string) (*models.Team, error) {
 }
 
 func (s *ReviewService) SetUserActive(userID string, isActive bool) (*models.User, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
 	user, err := s.store.GetUser(userID)
 	if err != nil {
 		return nil, ErrNotFound
@@ -58,6 +69,9 @@ func (s *ReviewService) SetUserActive(userID string, isActive bool) (*models.Use
 }
 
 func (s *ReviewService) CreatePR(prID, prName, authorID string) (*models.PullRequest, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
 	existing, _ := s.store.GetPR(prID)
 	if existing != nil {
 		return nil, ErrPRExists
@@ -104,6 +118,9 @@ func (s *ReviewService) CreatePR(prID, prName, authorID string) (*models.PullReq
 }
 
 func (s *ReviewService) MergePR(prID string) (*models.PullRequest, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
 	pr, err := s.store.GetPR(prID)
 	if err != nil {
 		return nil, ErrNotFound
@@ -125,6 +142,9 @@ func (s *ReviewService) MergePR(prID string) (*models.PullRequest, error) {
 }
 
 func (s *ReviewService) ReassignReviewer(prID, oldUserID string) (*models.PullRequest, string, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
 	pr, err := s.store.GetPR(prID)
 	if err != nil {
 		return nil, "", ErrNotFound
@@ -183,6 +203,9 @@ func (s *ReviewService) ReassignReviewer(prID, oldUserID string) (*models.PullRe
 }
 
 func (s *ReviewService) GetUserReviews(userID string) ([]models.PullRequestShort, error) {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+
 	_, err := s.store.GetUser(userID)
 	if err != nil {
 		return nil, ErrNotFound
@@ -192,6 +215,7 @@ func (s *ReviewService) GetUserReviews(userID string) ([]models.PullRequestShort
 }
 
 func (s *ReviewService) selectReviewers(candidates []models.User, max int) []models.User {
+
 	if len(candidates) == 0 {
 		return []models.User{}
 	}
