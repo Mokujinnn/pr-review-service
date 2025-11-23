@@ -3,9 +3,10 @@ package service
 import (
 	"errors"
 	"math/rand"
+	"time"
+
 	"pr-review-service/internal/models"
 	"pr-review-service/internal/storage"
-	"time"
 )
 
 var (
